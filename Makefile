@@ -1,5 +1,5 @@
 NAME = so_long
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra #-Werror
 CPPFLAGS= -I libft/src -I minilibx-linux/ # -I : include 
 CC = cc
 SRC = \
@@ -15,7 +15,7 @@ MLXFLAGS = -Lminilibx-linux/ -lmlx -lX11 -lXext
 
 all : $(NAME)
 	
-%.o : %.c pipex.h
+%.o : %.c so_long.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
 
 re: fclean all
@@ -43,6 +43,6 @@ $(LIBFT) : FORCE #commande vide pour qu'il execute a chaque fois make
 
 .PHONY : all clean fclean re
 
-$(NAME) : $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(MLXFLAGS)
+$(NAME) : $(LIBFT) $(LIBMLX) $(OBJ)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJ) $(LIBFT) $(LIBMLX) -o $(NAME) $(MLXFLAGS)
 
