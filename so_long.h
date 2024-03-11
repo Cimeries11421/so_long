@@ -3,12 +3,13 @@
 
 # include <stdio.h>
 # include <unistd.h>
+# include <fcntl.h>
 # include "mlx.h"
 # include "libft.h"
 
 
-# define X_W 700
-# define Y_W 700
+# define X_W 1920
+# define Y_W 1080
 
 typedef struct s_struct
 {
@@ -24,7 +25,12 @@ typedef struct s_data
 	int			*bits_per_pixel;
 	int			*size_line;
 	int			*endian;
-}				t_data;
+}			t_data;
+
+typedef struct	s_map
+{
+	char **map;
+}				t_map;
 
 typedef struct s_textures
 {
@@ -45,12 +51,15 @@ typedef struct s_textures
 typedef struct s_content
 {
 	int			pos_player[2];
+	int			pos_floor[2];
 	t_solong	so_long;
 	t_textures	textures;		
-
+	t_map		map;
 }				t_content;
 
-
-void	store_content->textures(t_textures *textures, t_solong *so_long)
+void	get_map(t_content *content);
+int		key_press(int key, t_content *content);
+void	store_textures(t_textures *textures, t_solong *so_long);
+void	display_and_move_around(t_content *content);
 
 #endif
