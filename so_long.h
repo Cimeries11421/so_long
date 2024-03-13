@@ -7,7 +7,10 @@
 # include "mlx.h"
 # include "libft.h"
 
-
+# define KEY_W 119
+# define KEY_S 115
+# define KEY_D 100
+# define KEY_A 97
 # define X_W 1920
 # define Y_W 1080
 
@@ -29,7 +32,9 @@ typedef struct s_data
 
 typedef struct	s_map
 {
-	char **map;
+	char	**map;
+	int		nbr_col;
+	int		count;
 }				t_map;
 
 typedef struct s_textures
@@ -57,7 +62,7 @@ typedef struct s_content
 	t_map		map;
 }				t_content;
 
-void	get_map(t_content *content);
+void	get_map(t_content *content, char **av);
 int		key_press(int key, t_content *content);
 void	store_textures(t_textures *textures, t_solong *so_long);
 void	display_and_move_around(t_content *content);

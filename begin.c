@@ -45,11 +45,33 @@ void	display_map(t_content *content)
 	}
 }
 
-int	main(void)
+static void	count_collectibles(t_content *content)
+{
+	size_t	y;
+	
+	y = 0;
+	content->map.nbr_col = 0;
+	while (content->map.map[y])
+	{
+		if(ft_strchr(content->map.map[y], 'C'))
+			content->map.nbr_col++;
+		y++;
+	}
+	printf("C = %d\n", content->map.nbr_col);
+	content->map.count = 0;
+}
+
+int	main(int ac, char **av)
 {
 	t_data		img;
 	t_content	content;
 
+
+	if (ac != 2)
+	{
+		write(2, "Error : only 1 argument\n", 25);
+		return (-1);
+	}
 	//content->so_long = (t_so_long){0};
 	content.so_long = (t_solong){0}; 
 	content.so_long.mlx = mlx_init(); //etablished a connection with the server
@@ -69,8 +91,9 @@ int	main(void)
 	}
 	img.img = mlx_new_image(content.so_long.mlx, 1920, 1080); // A quoi cela sert ? 
 	store_textures(&(content.textures), &(content.so_long));
-	get_map(&content);
+	get_map(&content, av);
 	display_map(&content);
+	count_collectibles(&content);
 	//img.addr = mlx_get_data_addr(img.img, img.bits_per_pixel, img.size_line, img.endian);
 	display_and_move_around(&content);
 	mlx_loop(content.so_long.mlx); //function that keeps the process alive
