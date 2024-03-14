@@ -63,6 +63,7 @@ typedef struct s_content
 }				t_content;
 
 void	get_map(t_content *content, char **av);
+void	check_map(t_content *content);
 int		key_press(int key, t_content *content);
 void	store_textures(t_textures *textures, t_solong *so_long);
 void	display_and_move_around(t_content *content);

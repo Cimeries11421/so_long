@@ -72,7 +72,7 @@ void	get_map(t_content *content, char **av)
 	read_and_store_map(content, fd, av);
 	replace_endline_by_0(content);
 //	display_tab(content);
-	check_map(content, av);
+	check_map(content);
 //	if (!check_map)
 		//free tab, exit ?;
 }

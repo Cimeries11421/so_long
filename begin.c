@@ -72,6 +72,8 @@ int	main(int ac, char **av)
 		write(2, "Error : only 1 argument\n", 25);
 		return (-1);
 	}
+
+	get_map(&content, av);
 	//content->so_long = (t_so_long){0};
 	content.so_long = (t_solong){0}; 
 	content.so_long.mlx = mlx_init(); //etablished a connection with the server
@@ -91,7 +93,6 @@ int	main(int ac, char **av)
 	}
 	img.img = mlx_new_image(content.so_long.mlx, 1920, 1080); // A quoi cela sert ? 
 	store_textures(&(content.textures), &(content.so_long));
-	get_map(&content, av);
 	display_map(&content);
 	count_collectibles(&content);
 	//img.addr = mlx_get_data_addr(img.img, img.bits_per_pixel, img.size_line, img.endian);
