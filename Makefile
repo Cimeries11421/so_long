@@ -1,5 +1,5 @@
 NAME = so_long
-CFLAGS = -Wall -Wextra #-Werror
+CFLAGS = -Wall -Wextra -g3 #-Werror
 CPPFLAGS= -I libft/src -I minilibx-linux/ # -I : include 
 CC = cc
 SRC = \

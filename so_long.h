@@ -11,6 +11,7 @@
 # define KEY_S 115
 # define KEY_D 100
 # define KEY_A 97
+# define KEY_ESC 65307
 # define X_W 1920
 # define Y_W 1080
 
@@ -27,21 +28,13 @@ typedef struct s_struct
 	void		*win;
 }			t_solong;
 
-typedef struct s_data
-{
-
-	void		*img;
-	char		*addr;
-	int			*bits_per_pixel;
-	int			*size_line;
-	int			*endian;
-}			t_data;
-
 typedef struct	s_map
 {
 	char	**map;
 	int		nbr_col;
 	int		count;
+	size_t	size_y;
+	size_t	size_x;
 	size_t	y;
 	size_t	x;
 }				t_map;
@@ -66,6 +59,7 @@ typedef struct s_content
 {
 	int			pos_player[2];
 	int			pos_floor[2];
+	int			nbr_mvt;
 	t_solong	so_long;
 	t_textures	textures;		
 	t_map		map;

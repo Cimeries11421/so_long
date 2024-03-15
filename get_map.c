@@ -52,16 +52,21 @@ static void	replace_endline_by_0(t_content *content)
 	}
 }
 
-
 void	get_map(t_content *content, char **av)
 {
 	int		fd;
-
+	
 	fd = open(av[1], O_RDONLY);
 	read_and_store_map(content, fd, av);
 	replace_endline_by_0(content);
 //	display_tab(content);
 	check_map(content);
+	content->map.size_y = 0;
+	content->map.size_x = ft_strlen(content->map.map[content->map.size_y]) * 32;
+	while(content->map.map[content->map.size_y])
+		content->map.size_y++;
+	content->map.size_y *= 32;
+
 //	if (!check_map)
 		//free tab, exit ?;
 }
