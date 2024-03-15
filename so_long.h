@@ -14,6 +14,13 @@
 # define X_W 1920
 # define Y_W 1080
 
+typedef struct s_objects
+{
+	int		P;
+	int		C;
+	int		E;
+}			t_objects;
+
 typedef struct s_struct
 {
 	void		*mlx;
@@ -35,6 +42,8 @@ typedef struct	s_map
 	char	**map;
 	int		nbr_col;
 	int		count;
+	int		y;
+	int		x;
 }				t_map;
 
 typedef struct s_textures
@@ -64,6 +73,7 @@ typedef struct s_content
 
 void	get_map(t_content *content, char **av);
 void	check_map(t_content *content);
+int		check_path(t_content *content);
 int		key_press(int key, t_content *content);
 void	store_textures(t_textures *textures, t_solong *so_long);
 void	display_and_move_around(t_content *content);

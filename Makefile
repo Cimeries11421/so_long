@@ -3,7 +3,8 @@ CFLAGS = -Wall -Wextra #-Werror
 CPPFLAGS= -I libft/src -I minilibx-linux/ # -I : include 
 CC = cc
 SRC = \
-	  begin.c store_textures.c display_and_move_around.c get_map.c check_map.c
+	  begin.c store_textures.c display_and_move_around.c get_map.c check_map.c \
+check_char_and_objects.c 
 
 OBJ = $(SRC:.c=.o)
 
