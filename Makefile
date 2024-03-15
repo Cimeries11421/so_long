@@ -32,7 +32,7 @@ sanitize:
 	make CFLAGS="-Wall -Wextra -Werror -g3 -fsanitize=address"
 
 debug:
-	make CFLAGS="-Wall -Wextra -Werror -g3"
+	make CFLAGS="-Wall -Wextra -g3"
 
 FORCE : 
 

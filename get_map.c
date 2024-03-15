@@ -52,17 +52,6 @@ static void	replace_endline_by_0(t_content *content)
 	}
 }
 
-/*void	display_tab(t_content *content)
-{
-	size_t	i;
-
-	i = 0;
-	while(content->map.map[i])
-	{
-		printf("line = %s", content->map.map[i]);
-		i++;
-	}
-}*/
 
 void	get_map(t_content *content, char **av)
 {

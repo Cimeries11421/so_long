@@ -42,8 +42,8 @@ typedef struct	s_map
 	char	**map;
 	int		nbr_col;
 	int		count;
-	int		y;
-	int		x;
+	size_t	y;
+	size_t	x;
 }				t_map;
 
 typedef struct s_textures
