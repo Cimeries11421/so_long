@@ -1,4 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   begin.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ebriere <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 20:00:27 by ebriere           #+#    #+#             */
+/*   Updated: 2024/03/17 20:00:29 by ebriere          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
+
+static void	display_image_in_map(t_content *content, char type, int y, int x)
+{
+
+	if (type == '1')
+		mlx_put_image_to_window(content->so_long.mlx, content->so_long.win,
+			content->textures.wall, (x * SIZE_IMAGE), (y * SIZE_IMAGE));
+	if (type == '0')
+		mlx_put_image_to_window(content->so_long.mlx, content->so_long.win,
+			content->textures.floor, (x * SIZE_IMAGE), (y * SIZE_IMAGE));
+	if (type == 'P')
+	{
+		mlx_put_image_to_window(content->so_long.mlx, content->so_long.win,
+			content->textures.player, (x * SIZE_IMAGE), (y * SIZE_IMAGE));
+		content->pos_player[0] = x * SIZE_IMAGE;
+		content->pos_player[1] = y * SIZE_IMAGE;
+	}
+	if (type == 'C')
+		mlx_put_image_to_window(content->so_long.mlx, content->so_long.win,
+			content->textures.col, (x * SIZE_IMAGE), (y * SIZE_IMAGE));
+	if (type == 'E')
+		mlx_put_image_to_window(content->so_long.mlx, content->so_long.win,
+			content->textures.exit, (x * SIZE_IMAGE), (y * SIZE_IMAGE));
+}
 
 void	display_map(t_content *content)
 {
@@ -11,34 +47,19 @@ void	display_map(t_content *content)
 	{
 		while (content->map.map[y][x])
 		{
-			if(content->map.map[y][x] == '1')
-			{
-				mlx_put_image_to_window(content->so_long.mlx, content->so_long.win, 
-						content->textures.wall, (x * 32), (y *32));
-			}
+			if (content->map.map[y][x] == '1')
+				display_image_in_map(content, '1', y, x);
 			else if (content->map.map[y][x] == '0')
-			{
-				mlx_put_image_to_window(content->so_long.mlx, content->so_long.win,
-						content->textures.floor, (x * 32), (y * 32));
-			}
-			else if(content->map.map[y][x] == 'P')
-			{
-				mlx_put_image_to_window(content->so_long.mlx, content->so_long.win, 
-						content->textures.player, (x * 32), (y * 32));
-				content->pos_player[0] = x * 32;
-				content->pos_player[1] = y * 32;
-			}
-			else if(content->map.map[y][x] == 'C')
-			{
-				mlx_put_image_to_window(content->so_long.mlx, content->so_long.win, 
-						content->textures.col, (x * 32), (y * 32));
-			}
-			else if(content->map.map[y][x] == 'E')
-			{
-				mlx_put_image_to_window(content->so_long.mlx, content->so_long.win, 
-					content->textures.exit, (x * 32), (y *32));
-			}
+				display_image_in_map(content, '0', y, x);
+			else if (content->map.map[y][x] == 'P')
+				display_image_in_map(content, 'P', y, x);
+			else if (content->map.map[y][x] == 'C')
+				display_image_in_map(content, 'C', y, x);
+			else if (content->map.map[y][x] == 'E')
+				display_image_in_map(content, 'E', y, x);
 			x++;
+			//usleep(50000);
+			//mlx_do_sync(content->so_long.mlx);
 		}
 		x = 0;
 		y++;
@@ -48,16 +69,24 @@ void	display_map(t_content *content)
 static void	count_collectibles(t_content *content)
 {
 	size_t	y;
-	
+	size_t	x;
+
 	y = 0;
+	x = 0;
 	content->map.nbr_col = 0;
 	while (content->map.map[y])
 	{
-		if(ft_strchr(content->map.map[y], 'C'))
-			content->map.nbr_col++;
+		while (content->map.map[y][x])
+		{
+			if (content->map.map[y][x] == 'C')
+			{
+				content->map.nbr_col++;
+			}
+			x++;
+		}
+		x = 0;
 		y++;
 	}
-	printf("C = %d\n", content->map.nbr_col);
 	content->map.count = 0;
 }
 
@@ -84,46 +113,28 @@ int	main(int ac, char **av)
 	t_content	content;
 	t_solong	so_long;
 	t_textures	textures;
-	
-	if (ac != 2)
-	{
-		write(2, "Error : only 1 argument\n", 25);
-		return (-1);
-	}
-	if (check_extension(av[1]) != 0)
-	{
-		write(2, "Error : wrong extension file", 28);
-		return (-1);
-	}
 
 	content.so_long = (t_solong){0};
 	content.map = (t_map){0};
-	content.textures = (t-textures){0};
+	content.textures = (t_textures){0};
+	if (ac != 2)
+		error_exit(&content, "Error : only 1 argument required\n", 1);
+	if (check_extension(av[1]) != 0)
+		error_exit(&content, "Error : wrong extension file\n", 1);
 	get_map(&content, av);
-	printf("COUCOU %p, %p, %p\n", content.textures.player, content.so_long.mlx, content.textures.exit);
-	content.so_long = (t_solong){0}; 
-	content.so_long.mlx = mlx_init(); //etablished a connection with the server
-									  //+ malloc big struct, display.
+	content.so_long.mlx = mlx_init();
 	if (!content.so_long.mlx)
-	{
-		write (2, "Error : mlx_init\n", 18);
-		return (-1);
-	}
-	content.so_long.win = mlx_new_window(content.so_long.mlx, content.map.size_x, content.map.size_y,
-			"JEU_VIDEAL");
+		error_exit(&content, "Error : mlx_init", 1);
+	content.so_long.win = mlx_new_window(content.so_long.mlx,
+			content.map.size_x, content.map.size_y, "JEU_VIDEAL");
 	if (!content.so_long.win)
-	{
-		write (2, "Error : mlx_new_window\n", 16);
-		mlx_destroy_display(content.so_long.mlx);
-		free(content.so_long.mlx);
-		return (-1);
-	}
-	store_textures(&(content.textures), &(content.so_long));
+		error_exit(&content, "Error : mlx_new_window\n", 1);
+	store_textures(&content);
 	display_map(&content);
 	count_collectibles(&content);
 	display_and_move_around(&content);
-	mlx_loop(content.so_long.mlx); //function that keeps the process alive
-//	mlx_destroy_window(content->so_long.mlx, so_long.win); //apres la loop pour tour free.
-	//lx_destroy_display(content->so_long.mlx);
-	//free(content->so_long.mlx);
+    mlx_hook(content.so_long.win, 17, 1L<<0, free_and_exit, &content); 
+	mlx_loop(content.so_long.mlx);
+//	sleep(5);
+//	free_and_exit(&content, 0);
 }

@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ebriere <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 22:00:29 by ebriere           #+#    #+#             */
+/*   Updated: 2024/03/17 22:00:32 by ebriere          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SO_LONG_H
-# define SO_lONG_H
+# define SO_LONG_H
 
 # include <stdio.h>
 # include <unistd.h>
@@ -12,14 +24,14 @@
 # define KEY_D 100
 # define KEY_A 97
 # define KEY_ESC 65307
-# define X_W 1920
 # define Y_W 1080
+# define SIZE_IMAGE 158
 
 typedef struct s_objects
 {
-	int		P;
-	int		C;
-	int		E;
+	int		p;
+	int		c;
+	int		e;
 }			t_objects;
 
 typedef struct s_struct
@@ -28,7 +40,7 @@ typedef struct s_struct
 	void		*win;
 }			t_solong;
 
-typedef struct	s_map
+typedef struct s_map
 {
 	char	**map;
 	int		nbr_col;
@@ -69,7 +81,11 @@ void	get_map(t_content *content, char **av);
 void	check_map(t_content *content);
 int		check_path(t_content *content);
 int		key_press(int key, t_content *content);
-void	store_textures(t_textures *textures, t_solong *so_long);
+void	store_textures(t_content *content);
+void	display_image(int display_exit, t_content *content);
 void	display_and_move_around(t_content *content);
+void	error_exit(t_content *content, char *str, int error);
+int		free_and_exit(t_content *content, int error);
+char	**free_tab(char **tab);
 
 #endif

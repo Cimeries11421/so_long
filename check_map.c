@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ebriere <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 20:00:43 by ebriere           #+#    #+#             */
+/*   Updated: 2024/03/17 20:00:44 by ebriere          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 static int	check_dimension(t_content *content)
@@ -28,20 +40,21 @@ static int	check_wall(t_content *content)
 	end = 0;
 	while (content->map.map[end + 1])
 		end++;
-	while (content->map.map[y][x]) 
+	while (content->map.map[y][x])
 	{
 		if (content->map.map[y][x] != '1' || content->map.map[end][x] != '1' )
 			return (-1);
 		x++;
 	}
 	end_line = ft_strlen(content->map.map[y]) - 1;
-	while (content->map.map[y]) 
-	{	
-		if (content->map.map[y][0] != '1' || content->map.map[y][end_line] != '1')
+	while (content->map.map[y])
+	{
+		if (content->map.map[y][0] != '1' ||
+				content->map.map[y][end_line] != '1')
 			return (-1);
 		y++;
 	}
-	return (0);	
+	return (0);
 }
 
 static int	check_nbr_objects(t_content *content)
@@ -58,17 +71,17 @@ static int	check_nbr_objects(t_content *content)
 		while (content->map.map[y][x])
 		{
 			if (content->map.map[y][x] == 'P')
-				object.P++;
+				object.p++;
 			if (content->map.map[y][x] == 'C')
-				object.C++;
+				object.c++;
 			if (content->map.map[y][x] == 'E')
-				object.E++;
+				object.e++;
 			x++;
 		}
 		x = 0;
 		y++;
 	}
-	if (object.P != 1 || object.C < 1 || object.E != 1)
+	if (object.p != 1 || object.c < 1 || object.e != 1)
 		return (-1);
 	return (0);
 }
@@ -86,8 +99,8 @@ static int	check_char(t_content *content)
 	{
 		while (tab[y][x])
 		{
-			if (tab[y][x] != '1' && tab[y][x] != '0' && tab[y][x] != 'P' && tab[y][x] != 'C' 
-					&& tab[y][x] != 'E')
+			if (tab[y][x] != '1' && tab[y][x] != '0' && tab[y][x] != 'P'
+					&& tab[y][x] != 'C' && tab[y][x] != 'E')
 				return (-1);
 			x++;
 		}
@@ -100,29 +113,13 @@ static int	check_char(t_content *content)
 void	check_map(t_content *content)
 {
 	if (check_dimension(content) != 0)
-	{
-		write(2, "Error : map got wrong dimension\n", 33);
-		//free_tab + message d'erreur
-		exit(-1);
-	}
+		error_exit(content, "Error : map got wrong dimension\n", 1);
 	if (check_wall(content) != 0)
-	{
-		write(2, "Error : map got bad walls\n", 26);
-		exit(-1);
-	}
+		error_exit(content, "Error : map got bad walls\n", 1);
 	if (check_nbr_objects(content) != 0)
-	{	
-		write(2, "Error : wrong number of objects\n", 33);
-		exit(-1);
-	}
+		error_exit(content, "Error : map got wrong number of objets\n", 1);
 	if (check_char(content) != 0)
-	{
-		write(2, "Error : map got wrong characters\n", 34);
-		exit(-1);
-	}
+		error_exit(content, "Error : map got wrong characters\n", 1);
 	if (check_path(content) != 0)
-	{
-		write(2, "Error : There is no path to complete the game\n", 52);
-		exit(-1);
-	}
+		error_exit(content, "Error : no path to complete the game\n", 1);
 }

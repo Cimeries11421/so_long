@@ -4,7 +4,7 @@ CPPFLAGS= -I libft/src -I minilibx-linux/ # -I : include
 CC = cc
 SRC = \
 	  begin.c store_textures.c display_and_move_around.c get_map.c check_map.c \
-check_char_and_objects.c 
+	  check_path.c so_long_utils.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -29,7 +29,7 @@ clean :
 	rm -rf $(OBJ)
 
 sanitize:
-	make CFLAGS="-Wall -Wextra -Werror -g3 -fsanitize=address"
+	make CFLAGS="-Wall -Wextra -g3 -fsanitize=address"
 
 debug:
 	make CFLAGS="-Wall -Wextra -g3"

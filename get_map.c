@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_map.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ebriere <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 21:58:16 by ebriere           #+#    #+#             */
+/*   Updated: 2024/03/17 21:58:17 by ebriere          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 static size_t	count_line(int fd)
@@ -7,13 +19,13 @@ static size_t	count_line(int fd)
 
 	nbr_line = 0;
 	line = "begin";
-	while(line)
+	while (line)
 	{
 		line = get_next_line(fd);
-//		printf("%s", line);
+		free(line);
 		nbr_line++;
 	}
-	return (nbr_line - 1); //-1 pour le null
+	return (nbr_line - 1);
 }
 
 static void	read_and_store_map(t_content *content, int fd, char **av)
@@ -24,17 +36,19 @@ static void	read_and_store_map(t_content *content, int fd, char **av)
 	nbr_line = count_line(fd);
 	close(fd);
 	fd = open(av[1], O_RDONLY);
-	printf("nbr_line = %ld\n", nbr_line);
-	content->map.map = malloc((nbr_line + 1) * sizeof (char*));
+	if (fd == -1)
+		error_exit(content, "Error : Open\n", 1);
+	content->map.map = malloc((nbr_line + 1) * sizeof (char *));
+	if (!content->map.map)
+		error_exit(content, "Error : Malloc\n", 1);
 	i = 0;
-	while(i < nbr_line)
+	while (i < nbr_line)
 	{
 		content->map.map[i] = get_next_line(fd);
-		printf("line = %s", content->map.map[i]);
 		i++;
 	}
 	content->map.map[i] = NULL;
-	close(fd); //proteger close ? 
+	close(fd);
 }
 
 static void	replace_endline_by_0(t_content *content)
@@ -43,10 +57,10 @@ static void	replace_endline_by_0(t_content *content)
 	char	*p;
 
 	y = 0;
-	while(content->map.map[y])
+	while (content->map.map[y])
 	{
 		p = ft_strchr(content->map.map[y], '\n');
-		if(p)
+		if (p)
 			*p = '\0';
 		y++;
 	}
@@ -55,19 +69,16 @@ static void	replace_endline_by_0(t_content *content)
 void	get_map(t_content *content, char **av)
 {
 	int		fd;
-	
+
 	fd = open(av[1], O_RDONLY);
+	if (fd == -1)
+		error_exit(content, "Error : open", 1);
 	read_and_store_map(content, fd, av);
 	replace_endline_by_0(content);
-//	display_tab(content);
 	check_map(content);
 	content->map.size_y = 0;
-	content->map.size_x = ft_strlen(content->map.map[content->map.size_y]) * 32;
-	while(content->map.map[content->map.size_y])
+	content->map.size_x = ft_strlen(content->map.map[content->map.size_y]) * SIZE_IMAGE;
+	while (content->map.map[content->map.size_y])
 		content->map.size_y++;
-	content->map.size_y *= 32;
-
-//	if (!check_map)
-		//free tab, exit ?;
+	content->map.size_y *= SIZE_IMAGE;
 }
-
