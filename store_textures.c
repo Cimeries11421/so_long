@@ -21,44 +21,42 @@ static void	init_path(t_content *content)
 	content->textures.path_exit = "./textures/exit.xpm";
 }
 
-void	store_textures(t_content *content)
+void	assign_player_exit_to_pointer(t_content *content)
 {
-	init_path(content);
 	content->textures.player = mlx_xpm_file_to_image(content->so_long.mlx,
-			content->textures.path_player, &content->textures.width, &content->textures.height);
+			content->textures.path_player, &content->textures.width,
+			&content->textures.height);
 	if (!content->textures.player)
 		error_exit(content, "Error : mlx_xmp_file_to_image", 1);
-	content->textures.col = mlx_xpm_file_to_image(content->so_long.mlx, content->textures.path_col,
-			&content->textures.width, &content->textures.height);
-	if (!content->textures.col)
-		error_exit(content, "Error : mlx_xmp_file_to_image", 1);
-	content->textures.floor = mlx_xpm_file_to_image(content->so_long.mlx, content->textures.path_floor,
-			&content->textures.width, &content->textures.height);
-	if (!content->textures.floor)
-		error_exit(content, "Error : mlx_xmp_file_to_image", 1);
-	content->textures.wall = mlx_xpm_file_to_image(content->so_long.mlx, content->textures.path_wall,
-			&content->textures.width, &content->textures.height);
-	if (!content->textures.wall)
-		error_exit(content, "Error : mlx_xmp_file_to_image", 1);
-	content->textures.exit = mlx_xpm_file_to_image(content->so_long.mlx, content->textures.path_exit,
-			&content->textures.width, &content->textures.height);
+	content->textures.exit = mlx_xpm_file_to_image(content->so_long.mlx,
+			content->textures.path_exit, &content->textures.width,
+			&content->textures.height);
 	if (!content->textures.exit)
 		error_exit(content, "Error : mlx_xmp_file_to_image", 1);
 }
 
-void	display_image(int display_exit, t_content *content)
+void	assign_floor_wall_col_to_pointer(t_content *content)
 {
-	if (display_exit == 1)
-	{
-		mlx_put_image_to_window(content->so_long.mlx, content->so_long.win,
-			content->textures.exit, content->pos_floor[0],
-			content->pos_floor[1]);
-	}
-	else
-		mlx_put_image_to_window(content->so_long.mlx, content->so_long.win,
-			content->textures.floor, content->pos_floor[0],
-			content->pos_floor[1]);
-	mlx_put_image_to_window(content->so_long.mlx, content->so_long.win,
-		content->textures.player, content->pos_player[0],
-		content->pos_player[1]);
+	content->textures.col = mlx_xpm_file_to_image(content->so_long.mlx,
+			content->textures.path_col, &content->textures.width,
+			&content->textures.height);
+	if (!content->textures.col)
+		error_exit(content, "Error : mlx_xmp_file_to_image", 1);
+	content->textures.floor = mlx_xpm_file_to_image(content->so_long.mlx,
+			content->textures.path_floor, &content->textures.width,
+			&content->textures.height);
+	if (!content->textures.floor)
+		error_exit(content, "Error : mlx_xmp_file_to_image", 1);
+	content->textures.wall = mlx_xpm_file_to_image(content->so_long.mlx,
+			content->textures.path_wall, &content->textures.width,
+			&content->textures.height);
+	if (!content->textures.wall)
+		error_exit(content, "Error : mlx_xmp_file_to_image", 1);
+}
+
+void	store_textures(t_content *content)
+{
+	init_path(content);
+	assign_floor_wall_col_to_pointer(content);
+	assign_player_exit_to_pointer(content);
 }

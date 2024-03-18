@@ -6,7 +6,7 @@
 /*   By: ebriere <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:00:43 by ebriere           #+#    #+#             */
-/*   Updated: 2024/03/17 20:00:44 by ebriere          ###   ########.fr       */
+/*   Updated: 2024/03/18 22:50:56 by ebriere          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	check_map(t_content *content)
 	if (check_wall(content) != 0)
 		error_exit(content, "Error : map got bad walls\n", 1);
 	if (check_nbr_objects(content) != 0)
-		error_exit(content, "Error : map got wrong number of objets\n", 1);
+		error_exit(content, "Error : map got wrong number of objects\n", 1);
 	if (check_char(content) != 0)
 		error_exit(content, "Error : map got wrong characters\n", 1);
 	if (check_path(content) != 0)

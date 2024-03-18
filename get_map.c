@@ -6,7 +6,7 @@
 /*   By: ebriere <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 21:58:16 by ebriere           #+#    #+#             */
-/*   Updated: 2024/03/17 21:58:17 by ebriere          ###   ########.fr       */
+/*   Updated: 2024/03/18 22:21:25 by ebriere          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static void	read_and_store_map(t_content *content, int fd, char **av)
 
 	nbr_line = count_line(fd);
 	close(fd);
+	if (!nbr_line)
+		error_exit(content, "Error : File empty\n", 1);
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
 		error_exit(content, "Error : Open\n", 1);
@@ -72,12 +74,13 @@ void	get_map(t_content *content, char **av)
 
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
-		error_exit(content, "Error : open", 1);
+		error_exit(content, "Error : open\n", 1);
 	read_and_store_map(content, fd, av);
 	replace_endline_by_0(content);
 	check_map(content);
 	content->map.size_y = 0;
-	content->map.size_x = ft_strlen(content->map.map[content->map.size_y]) * SIZE_IMAGE;
+	content->map.size_x = ft_strlen(content->map.map[content->map.size_y])
+		* SIZE_IMAGE;
 	while (content->map.map[content->map.size_y])
 		content->map.size_y++;
 	content->map.size_y *= SIZE_IMAGE;

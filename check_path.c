@@ -64,7 +64,6 @@ void	flood_fill(char **tab, size_t y, size_t x)
 {
 	if (tab[y][x] == '1' || tab[y][x] == 'X')
 		return ;
-	write(2, "\n", 1);
 	tab[y][x] = 'X';
 	flood_fill(tab, y - 1, x);
 	flood_fill(tab, y + 1, x);

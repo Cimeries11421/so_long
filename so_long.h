@@ -87,5 +87,7 @@ void	display_and_move_around(t_content *content);
 void	error_exit(t_content *content, char *str, int error);
 int		free_and_exit(t_content *content, int error);
 char	**free_tab(char **tab);
+void	count_collectibles(t_content *content);
+void	display_map(t_content *content);
 
 #endif

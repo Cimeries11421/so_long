@@ -52,9 +52,13 @@ int	put_textures(char key, t_content *content)
 
 	content->pos_floor[0] = content->pos_player[0];
 	content->pos_floor[1] = content->pos_player[1];
-	content->nbr_mvt++;
-	ft_printf("number of steps = %d\n", content->nbr_mvt);
 	move_and_wall_collision(key, y, x, content);
+	if (content->pos_floor[1] != content->pos_player[1]
+		|| content->pos_floor[0] != content->pos_player[0])
+	{
+		ft_printf("number of steps = %d\n", content->nbr_mvt);
+		content->nbr_mvt++;
+	}
 	collect_collectibles(y, x, content);
 	if (content->map.map[content->pos_player[1] / SIZE_IMAGE]
 		[content->pos_player[0] / SIZE_IMAGE] == 'E'
@@ -62,6 +66,7 @@ int	put_textures(char key, t_content *content)
 		free_and_exit(content, 0);
 	else if (content->map.map[y][x] == 'E')
 		return (1);
+	return (0);
 }
 
 int	key_press(int key, t_content *content)
